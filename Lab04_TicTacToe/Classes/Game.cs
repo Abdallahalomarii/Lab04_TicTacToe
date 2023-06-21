@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Lab04_TicTacToe.Classes
 {
-	class Game
+	public class Game
 	{
 		public Player PlayerOne { get; set; }
 		public Player PlayerTwo { get; set; }
@@ -31,7 +31,7 @@ namespace Lab04_TicTacToe.Classes
 		public Player Play()
 		{
 
-			//TODO: Complete this method and utilize the rest of the class structure to play the game.
+            //TODO: Complete this method and utilize the rest of the class structure to play the game.
 
             /*
              * Complete this method by constructing the logic for the actual playing of Tic Tac Toe. 
@@ -47,7 +47,28 @@ namespace Lab04_TicTacToe.Classes
 
             Use any and all pre-existing methods in this program to help construct the method logic. 
              */
-		}
+            Player currentPlayer = new Player();
+            int draw = 0;
+            while (!CheckForWinner(Board) && draw < 9)
+            {
+                Board.DisplayBoard();
+                currentPlayer = NextPlayer();
+                currentPlayer.TakeTurn(Board);
+                SwitchPlayer();
+                draw++;
+            }
+            if (draw != 9)
+            {
+                Board.DisplayBoard();
+                return currentPlayer;
+
+            }
+            else
+            {
+                Board.DisplayBoard();
+                return null;
+            }
+        }
 
 
 		/// <summary>
@@ -82,10 +103,13 @@ namespace Lab04_TicTacToe.Classes
 				string b = Board.GameBoard[p2.Row, p2.Column];
 				string c = Board.GameBoard[p3.Row, p3.Column];
 
-				// TODO:  Determine a winner has been reached. 
-				// return true if a winner has been reached. 
-			
-			}
+                // TODO:  Determine a winner has been reached. 
+                // return true if a winner has been reached. 
+                if (a == b && b == c)
+                {
+                    return true;
+                }
+            }
 
 			return false;
 		}

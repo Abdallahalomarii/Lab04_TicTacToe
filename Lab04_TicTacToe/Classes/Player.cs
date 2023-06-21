@@ -4,8 +4,10 @@ using System.Text;
 
 namespace Lab04_TicTacToe.Classes
 {
-    class Player
-    {
+    public class Player
+    {/// <summary>
+	/// set and get the name of the players
+	/// </summary>
 		public string Name { get; set; }
 		/// <summary>
 		/// P1 is X and P2 will be O
@@ -17,7 +19,11 @@ namespace Lab04_TicTacToe.Classes
 		/// </summary>
 		public bool IsTurn { get; set; }
 
-
+		/// <summary>
+		/// let the user to select a position for the marker from the board
+		/// </summary>
+		/// <param name="board"></param>
+		/// <returns></returns>
 		public Position GetPosition(Board board)
 		{
 			Position desiredCoordinate = null;
@@ -31,7 +37,12 @@ namespace Lab04_TicTacToe.Classes
 
 		}
 
-
+		/// <summary>
+		/// test if the user input the number of board and turn it to a array position to put it 
+		/// in the correct position 
+		/// </summary>
+		/// <param name="position"></param>
+		/// <returns></returns>
 		public static Position PositionForNumber(int position)
 		{
 			switch (position)
@@ -50,23 +61,33 @@ namespace Lab04_TicTacToe.Classes
 			}
 		}
 
-	
+		/// <summary>
+		/// give the player turn and checking if any of players put any marker on 
+		/// a position that has marker before and not changing the turn and send message to player 
+		/// </summary>
+		/// <param name="board"></param>
 		public void TakeTurn(Board board)
 		{
-			IsTurn = true;
+            IsTurn = true;
+            bool valid = true;
 
-			Console.WriteLine($"{Name} it is your turn");
+            Position position = null;
 
-			Position position = GetPosition(board);
+            while (valid)
+            {
+                Console.WriteLine($"{Name} it is your turn");
+                position = GetPosition(board);
+                if (Int32.TryParse(board.GameBoard[position.Row, position.Column], out int _))
+                {
+                    board.GameBoard[position.Row, position.Column] = Marker;
+                    valid = false;
+                }
+                else
+                {
+                    Console.WriteLine("This space is already occupied");
+                }
 
-			if (Int32.TryParse(board.GameBoard[position.Row, position.Column], out int _))
-			{
-				board.GameBoard[position.Row, position.Column] = Marker;
-			}
-			else
-			{
-				Console.WriteLine("This space is already occupied");
-			}
-		}
+            }
+        }
 	}
 }
